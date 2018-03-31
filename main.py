@@ -154,15 +154,21 @@ def tailor3(f, n, h, x, y):
     xn = x[n]
     yn = y[n]
     fn = f(xn, yn)
+
     f_x = -20 * yn**2
     f_y = -40 * yn * (xn - 0.4)
     f_xx = 0
     f_xy = -40 * yn
     f_yy = -40 * (xn - 0.4)
+
+    a = f_yy
+    b = 2*f_xy + f_y**2
+    c = f_x*f_y + f_xx
+
     k1 = yn
     k2 = h * fn
     k3 = h**2 * (f_x + f_y * fn) / 2
-    k4 = h**3 * (f_x + f_xx + f_xy + (f_y + f_yy + f_xy) * fn) / 6
+    k4 = h**3 * (a * fn**2 + b * fn + c) / 6
     return k1 + k2 + k3 + k4
 
 
@@ -176,7 +182,6 @@ METHODS = [
     tailor2,
     tailor3,
 ]
-
 
 SELECTED_METHODS = set(METHODS)
 
